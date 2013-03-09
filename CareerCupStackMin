@@ -1,0 +1,76 @@
+import java.util.Random;
+
+public class StackMin {
+  static final int stackSize = 10;
+	static int pos = -1;
+	static int[] stack = new int[ stackSize ];
+	static int[] min = new int[ stackSize ];
+	
+	public static int pop() throws Exception
+	{
+		if( pos == -1 )
+			throw new Exception( "stack empty!" );
+		else
+		{
+			int ret = stack[ pos ];
+			pos--;
+			return ret;
+		}	
+			
+	}
+	
+	public static void push( int num ) throws Exception
+	{
+		int preMin = 0;
+		if( pos == stackSize - 1 )
+			throw new Exception( "Stack Full!" );
+		else
+		{
+			pos++;
+			if( pos == 0 )
+				preMin = num;
+			else
+				preMin = min[ pos - 1 ];
+			stack[ pos ] = num;
+			if( num <= preMin )
+				min[ pos ] = num;
+			else
+				min[ pos ] = preMin;
+		}
+	}
+	
+	
+	public static int min() throws Exception
+	{
+		if( pos == -1 )
+			throw new Exception( "Stack Empty. No min" );
+		else
+		{
+			return min[ pos ];
+		}
+	}
+	
+	public static void main(String[] args) {
+		try
+		{
+			for( int i = 0; i < stackSize; i++ )
+			{
+				Random r = new Random();
+				int number = Math.abs( r.nextInt()%10 ) ;
+				System.out.println( "" + number );
+				push( number );
+			}
+			
+			for( int i = 0; i < stackSize; i++ )
+			{
+				System.out.println("Popped " + pop() + ", ");
+				System.out.println("New min is " + min() + ", ");
+			}
+			
+		}catch( Exception e )
+		{
+			System.out.println( e.getMessage() );
+		}
+	}
+
+}
